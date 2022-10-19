@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 const myLoader = ({ src }) => {
-  return `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${src}_0.jpg`
+  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${src}_0.jpg`
   // // return `http://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${src}.png`
   // return `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${src}_0.jpg`
 }
@@ -15,7 +15,7 @@ const Champion = ({ champion }) => {
   useEffect(() => {
     const fetcherChampionInfo = async () => {
       const dataChampInfo = await fetch(
-        `http://ddragon.leagueoflegends.com/cdn/12.19.1/data/en_US/champion/${champion.id}.json`
+        `https://ddragon.leagueoflegends.com/cdn/12.19.1/data/en_US/champion/${champion.id}.json`
       ).then((res) => res.json())
       setChampionInfo(dataChampInfo.data[champion.id])
     }

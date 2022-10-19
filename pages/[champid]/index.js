@@ -4,7 +4,7 @@ import Link from 'next/link'
 export async function getServerSideProps(context) {
   const champidSS = context.params.champid
   const dataChampInfo = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/12.19.1/data/en_US/champion/${champidSS}.json`
+    `https://ddragon.leagueoflegends.com/cdn/12.19.1/data/en_US/champion/${champidSS}.json`
   ).then((res) => res.json())
 
   const championInfo = dataChampInfo.data[champidSS]
@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
 }
 
 const myLoader = ({ src }) => {
-  return `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${src}_0.jpg`
+  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${src}_0.jpg`
 }
 
 export default function IndividualChamp({ championInfo }) {

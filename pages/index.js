@@ -28,7 +28,7 @@ export async function getStaticProps() {
 
   //fetch champion list
   const champs = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/${version.toString()}/data/en_US/champion.json`
+    `https://ddragon.leagueoflegends.com/cdn/${version.toString()}/data/en_US/champion.json`
   ).then((res) => res.json())
   const champions = champs.data
 
