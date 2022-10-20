@@ -76,7 +76,7 @@ export default function IndividualChamp({ championInfo, getComments, TOKEN }) {
 
     // location.reload()
     // router.reload(window.location.pathname)
-    // Router.reload(window.location.pathname)
+    Router.reload(window.location.pathname)
   }
   const handleChange = (value) => {
     setComment(value)
@@ -97,7 +97,7 @@ export default function IndividualChamp({ championInfo, getComments, TOKEN }) {
       })
     // location.reload()
     // router.reload(window.location.pathname)
-    // Router.reload(window.location.pathname)
+    Router.reload(window.location.pathname)
   }
 
   return (
