@@ -6,7 +6,8 @@ import Router from 'next/router'
 import { useState } from 'react'
 
 export async function getServerSideProps(context) {
-  const TOKEN = process.env.TOKEN
+  const TOKEN =
+    'sk8yWk0Rc7QbxicRAVjDmM5kBaL7r3fSFGwECymSvWolls37THU4GepxXdyxrlux9LzhO2700goiO09dJza9EWtlLcROMAjJtOBJU18rdmpJHLp42DNde1HWrOsxsuH7Vlu2YOQ681FD2RjWnrSDnLJlQQlM5byTguPrQ4LQ3bdItSgbnPhj'
 
   const champidSS = context.params.champid
   const dataChampInfo = await fetch(
