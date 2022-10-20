@@ -2,7 +2,7 @@ import React from 'react'
 
 const Search = ({ setSearchedChamp }) => {
   const changeHandler = (e) => {
-    setSearchedChamp(e.target.value)
+    setSearchedChamp(e.target.value.toLowerCase())
   }
   return (
     <div className='h-full'>

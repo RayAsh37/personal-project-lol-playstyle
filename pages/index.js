@@ -3,22 +3,6 @@ import { useEffect, useState } from 'react'
 import Champion from '../components/Champion'
 import Search from '../components/Search'
 
-// const client = createClient({
-//   projectId: 'x62bwg2o',
-//   dataset: 'production',
-//   apiVersion: '2022-10-18',
-//   useCdn: false,
-// })
-
-// export async function getStaticProps() {
-//   const animals = await client.fetch(`*[_type == "animal"]`)
-//   return {
-//     props: {
-//       animals,
-//     },
-//   }
-// }
-
 export async function getStaticProps() {
   //fetch version
   const versions = await fetch(
@@ -44,14 +28,6 @@ export default function Home({ champions }) {
 
   const [displayChamps, setDisplayChamps] = useState(originalChampKeys)
   const [searchedChamp, setSearchedChamp] = useState('')
-  // if (searchedChamp === '') {
-  //   setDisplayChamps(originalChampKeys)
-  // } else {
-  //   const newChampKeys = originalChampKeys.filter((champKey) => {
-  //     return champKey.toLowerCase().includes(searchedChamp)
-  //   })
-  //   setSearchedChamp(newChampKeys)
-  // }
 
   useEffect(() => {
     if (searchedChamp === '') {
@@ -75,15 +51,6 @@ export default function Home({ champions }) {
   if (champions)
     return (
       <div>
-        {/* <div>
-            {animals.length > 0 && (
-              <ul>
-                {animals.map((animal) => (
-                  <li key={animal._id}>{animal?.name}</li>
-                ))}
-              </ul>
-            )}
-          </div> */}
         <br />
         <hr />
         <Search setSearchedChamp={setSearchedChamp} />
@@ -93,7 +60,10 @@ export default function Home({ champions }) {
           {displayChamps.map((champion) => {
             return (
               <div key={champions[champion].id}>
-                <Champion champion={champions[champion]} />
+                <Champion
+                  champion={champions[champion]}
+                  className='rounded-lg'
+                />
               </div>
             )
           })}
