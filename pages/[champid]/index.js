@@ -2,6 +2,7 @@ import { createClient } from 'next-sanity'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Router from 'next/router'
 import { useState } from 'react'
 
 const client = createClient({
@@ -64,7 +65,8 @@ export default function IndividualChamp({ championInfo, getComments }) {
     })
 
     // location.reload()
-    router.reload(window.location.pathname)
+    // router.reload(window.location.pathname)
+    Router.reload(window.location.pathname)
   }
   const handleChange = (value) => {
     setComment(value)
@@ -84,7 +86,8 @@ export default function IndividualChamp({ championInfo, getComments }) {
         console.error('Delete failed: ', err.message)
       })
     // location.reload()
-    router.reload(window.location.pathname)
+    // router.reload(window.location.pathname)
+    Router.reload(window.location.pathname)
   }
 
   return (
