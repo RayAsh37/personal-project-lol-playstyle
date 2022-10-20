@@ -63,7 +63,8 @@ export default function IndividualChamp({ championInfo, getComments }) {
       console.log('comment was created (or was already present)')
     })
 
-    location.reload()
+    // location.reload()
+    router.reload(window.location.pathname)
   }
   const handleChange = (value) => {
     setComment(value)
@@ -82,7 +83,8 @@ export default function IndividualChamp({ championInfo, getComments }) {
       .catch((err) => {
         console.error('Delete failed: ', err.message)
       })
-    location.reload()
+    // location.reload()
+    router.reload(window.location.pathname)
   }
 
   return (
