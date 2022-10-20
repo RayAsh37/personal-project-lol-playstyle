@@ -5,21 +5,21 @@ import { useRouter } from 'next/router'
 import Router from 'next/router'
 import { useState } from 'react'
 
-const client = createClient({
-  projectId: 'x62bwg2o',
-  dataset: 'production',
-  apiVersion: '2022-10-18',
-  useCdn: false,
-  token:
-    'sk8yWk0Rc7QbxicRAVjDmM5kBaL7r3fSFGwECymSvWolls37THU4GepxXdyxrlux9LzhO2700goiO09dJza9EWtlLcROMAjJtOBJU18rdmpJHLp42DNde1HWrOsxsuH7Vlu2YOQ681FD2RjWnrSDnLJlQQlM5byTguPrQ4LQ3bdItSgbnPhj',
-})
-
 export async function getServerSideProps(context) {
+  const TOKEN = process.env.TOKEN
+
   const champidSS = context.params.champid
   const dataChampInfo = await fetch(
     `https://ddragon.leagueoflegends.com/cdn/12.19.1/data/en_US/champion/${champidSS}.json`
   ).then((res) => res.json())
   const championInfo = dataChampInfo.data[champidSS]
+
+  const client = createClient({
+    projectId: 'x62bwg2o',
+    dataset: 'production',
+    apiVersion: '2022-10-18',
+    useCdn: false,
+  })
 
   //query for comments
   const getComments = await client.fetch(
@@ -30,6 +30,7 @@ export async function getServerSideProps(context) {
     props: {
       championInfo,
       getComments,
+      TOKEN,
     },
   }
 }
@@ -38,7 +39,7 @@ const myLoader = ({ src }) => {
   return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${src}_0.jpg`
 }
 
-export default function IndividualChamp({ championInfo, getComments }) {
+export default function IndividualChamp({ championInfo, getComments, TOKEN }) {
   const today = new Date()
   const date =
     today.getFullYear() + '' + (today.getMonth() + 1) + '' + today.getDate()
@@ -49,6 +50,14 @@ export default function IndividualChamp({ championInfo, getComments }) {
   const champIdForDB = router.query.champid
   const [comment, setComment] = useState('')
   const [userID, setUserID] = useState('')
+
+  const client = createClient({
+    projectId: 'x62bwg2o',
+    dataset: 'production',
+    apiVersion: '2022-10-18',
+    useCdn: false,
+    token: TOKEN,
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault()
