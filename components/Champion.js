@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 const myLoader = ({ src }) => {
+  //Loader for Image
   return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${src}_0.jpg`
   // // return `http://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${src}.png`
   // return `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${src}_0.jpg`
@@ -44,8 +45,7 @@ const Champion = ({ champion }) => {
               width={1013} //original
               height={598} //original
               className='rounded-lg'
-              priority
-              quality={1}
+              priority={false}
             />
           </div>
           <hr />

@@ -27,9 +27,10 @@ export default function Home({ champions }) {
   const originalChampKeys = Object.keys(champions) //get keys of all champs as array
 
   const [displayChamps, setDisplayChamps] = useState(originalChampKeys)
-  const [searchedChamp, setSearchedChamp] = useState('')
+  const [searchedChamp, setSearchedChamp] = useState('') //get the serached word from Search component
 
   useEffect(() => {
+    //get all champ keys of the searched champs
     if (searchedChamp === '') {
       setDisplayChamps(originalChampKeys)
     } else {
@@ -41,6 +42,7 @@ export default function Home({ champions }) {
   }, [searchedChamp])
 
   if (!champions)
+    //Loading state
     return (
       <>
         <Search />

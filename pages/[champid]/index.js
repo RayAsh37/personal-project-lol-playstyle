@@ -3,17 +3,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Router from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export async function getServerSideProps(context) {
-  const TOKEN =
-    'sk8yWk0Rc7QbxicRAVjDmM5kBaL7r3fSFGwECymSvWolls37THU4GepxXdyxrlux9LzhO2700goiO09dJza9EWtlLcROMAjJtOBJU18rdmpJHLp42DNde1HWrOsxsuH7Vlu2YOQ681FD2RjWnrSDnLJlQQlM5byTguPrQ4LQ3bdItSgbnPhj'
-
   const champidSS = context.params.champid
   const dataChampInfo = await fetch(
     `https://ddragon.leagueoflegends.com/cdn/12.19.1/data/en_US/champion/${champidSS}.json`
   ).then((res) => res.json())
+
+  //get champion info COMPLETE
   const championInfo = dataChampInfo.data[champidSS]
+
+  const TOKEN =
+    'sk8yWk0Rc7QbxicRAVjDmM5kBaL7r3fSFGwECymSvWolls37THU4GepxXdyxrlux9LzhO2700goiO09dJza9EWtlLcROMAjJtOBJU18rdmpJHLp42DNde1HWrOsxsuH7Vlu2YOQ681FD2RjWnrSDnLJlQQlM5byTguPrQ4LQ3bdItSgbnPhj'
 
   const client = createClient({
     projectId: 'x62bwg2o',
@@ -36,22 +38,30 @@ export async function getServerSideProps(context) {
   }
 }
 
+//image component loader function
 const myLoader = ({ src }) => {
   return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${src}_0.jpg`
 }
 
 export default function IndividualChamp({ championInfo, getComments, TOKEN }) {
+  //take the time + date to create a new ID
   const today = new Date()
   const date =
     today.getFullYear() + '' + (today.getMonth() + 1) + '' + today.getDate()
   const time =
     today.getHours() + '' + today.getMinutes() + '' + today.getSeconds()
   const dateTime = date + '' + time
+
+  //get the parameter from the query
   const router = useRouter()
   const champIdForDB = router.query.champid
+
+  //semi-controlled input
   const [comment, setComment] = useState('')
   const [userID, setUserID] = useState('')
+  const [allComments, setAllComments] = useState(getComments)
 
+  //create a Sanity client
   const client = createClient({
     projectId: 'x62bwg2o',
     dataset: 'production',
@@ -60,6 +70,7 @@ export default function IndividualChamp({ championInfo, getComments, TOKEN }) {
     token: TOKEN,
   })
 
+  //add a comment
   const handleSubmit = (e) => {
     e.preventDefault()
     const doc = {
@@ -70,34 +81,50 @@ export default function IndividualChamp({ championInfo, getComments, TOKEN }) {
       userId: userID,
     }
 
-    client.createIfNotExists(doc).then((res) => {
-      console.log('comment was created (or was already present)')
-    })
-
-    // location.reload()
-    // router.reload(window.location.pathname)
-    Router.reload(window.location.pathname)
+    //create new comment
+    client
+      .createIfNotExists(doc)
+      .then((res) => {
+        console.log(res, 'comment was created (or was already present)')
+      })
+      .then(() => {
+        //update the comment list with new comments
+        client
+          .fetch(`*[_type == "comment"  && championName == "${champIdForDB}"]`)
+          .then((res) => {
+            setAllComments(res)
+          })
+      })
   }
-  const handleChange = (value) => {
-    setComment(value)
-  }
 
-  const handleChangeUserID = (value) => {
-    setUserID(value)
-  }
-
+  //delete Comment
   const deleteItem = (value) => {
     client
       .delete(value)
       .then(() => {
         console.log('Comment deleted')
       })
+      .then(() => {
+        //update the comments list after deleting
+        client
+          .fetch(`*[_type == "comment"  && championName == "${champIdForDB}"]`)
+          .then((res) => {
+            setAllComments(res)
+          })
+      })
       .catch((err) => {
         console.error('Delete failed: ', err.message)
       })
-    // location.reload()
-    // router.reload(window.location.pathname)
-    Router.reload(window.location.pathname)
+  }
+
+  //take comment input
+  const handleChange = (value) => {
+    setComment(value)
+  }
+
+  //take UserID input
+  const handleChangeUserID = (value) => {
+    setUserID(value)
   }
 
   return (
@@ -146,7 +173,7 @@ export default function IndividualChamp({ championInfo, getComments, TOKEN }) {
       <br />
       <h2 className='font-bold'>Comments:</h2>
       <ul className='list-disc flex flex-col flex-start w-[25rem]'>
-        {getComments.map((singleComment) => {
+        {allComments.map((singleComment) => {
           return (
             <li key={singleComment._id}>
               <hr />
