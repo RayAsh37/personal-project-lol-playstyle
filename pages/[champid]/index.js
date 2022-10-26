@@ -14,7 +14,7 @@ export async function getServerSideProps(context) {
   //get champion info COMPLETE
   const championInfo = dataChampInfo.data[champidSS]
 
-  const TOKEN = process.env.TOKEN
+  const TOKEN = process.env.NEXT_PUBLIC_TOKEN
 
   // const client = createClient({
   //   projectId: 'x62bwg2o',
