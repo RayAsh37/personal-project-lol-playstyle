@@ -14,14 +14,21 @@ export async function getServerSideProps(context) {
   //get champion info COMPLETE
   const championInfo = dataChampInfo.data[champidSS]
 
-  const TOKEN =
-    'sk8yWk0Rc7QbxicRAVjDmM5kBaL7r3fSFGwECymSvWolls37THU4GepxXdyxrlux9LzhO2700goiO09dJza9EWtlLcROMAjJtOBJU18rdmpJHLp42DNde1HWrOsxsuH7Vlu2YOQ681FD2RjWnrSDnLJlQQlM5byTguPrQ4LQ3bdItSgbnPhj'
+  const TOKEN = process.env.TOKEN
+
+  // const client = createClient({
+  //   projectId: 'x62bwg2o',
+  //   dataset: 'production',
+  //   apiVersion: '2022-10-18',
+  //   useCdn: false,
+  // })
 
   const client = createClient({
     projectId: 'x62bwg2o',
     dataset: 'production',
     apiVersion: '2022-10-18',
     useCdn: false,
+    token: TOKEN,
   })
 
   //query for comments
