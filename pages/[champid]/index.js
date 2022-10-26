@@ -52,7 +52,6 @@ const myLoader = ({ src }) => {
 
 export default function IndividualChamp({ championInfo, getComments, TOKEN }) {
   //take the time + date to create a new ID
-  console.log(TOKEN)
   const today = new Date()
   const date =
     today.getFullYear() + '' + (today.getMonth() + 1) + '' + today.getDate()
